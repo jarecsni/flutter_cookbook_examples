@@ -4,10 +4,12 @@ void main(List<String> args) {
 }
 
 void increaseValue(int? value) {
-  if (value != null) {
-    value++;
-  } else {
-    value = 1;
-  }
+  value = value ?? 0;
+  value++;
+  // if (value != null) {
+  //   value++;
+  // } else {
+  //   value = 1;
+  // }
   print(value);
 }
