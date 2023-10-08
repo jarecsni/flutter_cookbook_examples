@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cookbook_examples/chapter4/immutable_widget.dart';
+import 'package:flutter_cookbook_examples/chapter4/text_layout.dart';
 
 class BasicScreen extends StatelessWidget {
   const BasicScreen({super.key});
@@ -17,9 +18,14 @@ class BasicScreen extends StatelessWidget {
           )
         ],
       ),
-      body: const AspectRatio(
-        aspectRatio: 1.0,
-        child: ImmutableWidget(),
+      body: const Column(
+        children: [
+          AspectRatio(
+            aspectRatio: 1.0,
+            child: ImmutableWidget(),
+          ),
+          TextLayout(),
+        ],
       ),
       drawer: Drawer(
         child: Container(
