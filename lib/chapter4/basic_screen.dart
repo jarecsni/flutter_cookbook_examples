@@ -18,15 +18,26 @@ class BasicScreen extends StatelessWidget {
           )
         ],
       ),
-      body: const Column(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AspectRatio(
-            aspectRatio: 1.0,
-            child: ImmutableWidget(),
+          Semantics(
+            image: true,
+            label: 'Beautiful montains',
+            child: Image.asset('assets/mountains.jpg'),
           ),
-          TextLayout(),
+          const TextLayout(),
         ],
       ),
+      // body: const Column(
+      //   children: [
+      //     AspectRatio(
+      //       aspectRatio: 1.0,
+      //       child: ImmutableWidget(),
+      //     ),
+      //     TextLayout(),
+      //   ],
+      // ),
       drawer: Drawer(
         child: Container(
           color: Colors.lightBlue,
