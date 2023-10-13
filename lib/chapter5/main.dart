@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './profile_screen.dart';
+import 'package:flutter_cookbook_examples/chapter5/flex_screen.dart';
 
 void main(List<String> args) => runApp(const StaticApp());
 
@@ -13,7 +13,7 @@ class StaticApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ProfileScreen(),
+      home: const FlexScreen(),
     );
   }
 }
