@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cookbook_examples/chapter5/deep_tree.dart';
+import 'package:flutter_cookbook_examples/chapter5/e_commerce_screen.dart';
 import 'package:flutter_cookbook_examples/chapter5/profile_screen.dart';
 
 void main(List<String> args) => runApp(const StaticApp());
@@ -10,13 +11,13 @@ class StaticApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Flutter Demo",
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      //home: const FlexScreen(),
-      //home: const ProfileScreen());
-      home: const DeepTree(),
-    );
+        title: "Flutter Demo",
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        //home: const FlexScreen(),
+        //home: const ProfileScreen());
+        // home: const DeepTree(),
+        home: const ECommerceScreen());
   }
 }
