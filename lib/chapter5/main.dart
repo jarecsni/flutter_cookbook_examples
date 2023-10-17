@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cookbook_examples/chapter5/deep_tree.dart';
 import 'package:flutter_cookbook_examples/chapter5/e_commerce_screen.dart';
-import 'package:flutter_cookbook_examples/chapter5/profile_screen.dart';
 
 void main(List<String> args) => runApp(const StaticApp());
 

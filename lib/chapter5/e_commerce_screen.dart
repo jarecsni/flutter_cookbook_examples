@@ -84,7 +84,7 @@ class ECommerceScreen extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(4.0),
           child: Text(
             'Casual Wear',
             style: TextStyle(
@@ -126,73 +126,37 @@ class DealButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        const SizedBox(height: 15),
+        SizedBox(height: 15),
         Row(
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                height: 80,
-                decoration: BoxDecoration(
-                    color: Colors.orangeAccent,
-                    borderRadius: BorderRadius.circular(20)),
-                child: const Center(
-                    child: Text(
-                  'Best Sellers',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
-              ),
+          children: [
+            DealButton(
+              text: "Best Sellers",
+              color: Colors.orangeAccent,
             ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Container(
-                height: 80,
-                decoration: BoxDecoration(
-                    color: Colors.indigoAccent,
-                    borderRadius: BorderRadius.circular(20)),
-                child: const Center(
-                    child: Text(
-                  'Daily Deals',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
-              ),
-            )
+            SizedBox(width: 10),
+            DealButton(
+              text: "Daily Deals",
+              color: Colors.blue,
+            ),
           ],
         ),
-        const SizedBox(height: 15),
+        SizedBox(height: 15),
         Row(
-          children: <Widget>[
-            DealButton(),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Container(
-                height: 80,
-                decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    borderRadius: BorderRadius.circular(20)),
-                child: const Center(
-                    child: Text(
-                  'Last Chance',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
-              ),
-            )
+          children: [
+            DealButton(
+              text: "Must Buy in Summer",
+              color: Colors.lightGreen,
+            ),
+            SizedBox(width: 10),
+            DealButton(
+              text: "Last Chance",
+              color: Colors.redAccent,
+            ),
           ],
         ),
-        const SizedBox(height: 15),
+        SizedBox(height: 15),
       ],
     );
   }
@@ -213,15 +177,15 @@ class DealButton extends StatelessWidget {
       child: Container(
         height: 80,
         decoration: BoxDecoration(
-            color: Colors.lightGreen, borderRadius: BorderRadius.circular(20)),
+            color: color, borderRadius: BorderRadius.circular(20)),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Center(
             child: Text(
               text,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: color,
+              style: const TextStyle(
+                color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
               ),
