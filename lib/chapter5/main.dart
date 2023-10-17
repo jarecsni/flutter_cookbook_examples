@@ -11,7 +11,16 @@ class StaticApp extends StatelessWidget {
     return MaterialApp(
         title: "Flutter Demo",
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          brightness: Brightness.dark,
+          primarySwatch: Colors.green,
+          appBarTheme: AppBarTheme(
+            elevation: 10,
+            titleTextStyle: const TextTheme(
+                titleLarge: TextStyle(
+              fontFamily: 'LeckerliOne',
+              fontSize: 24,
+            )).titleLarge,
+          ),
         ),
         //home: const FlexScreen(),
         //home: const ProfileScreen());
