@@ -62,12 +62,20 @@ class _StopWatchState extends State<StopWatch> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.green),
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                ),
+                // style: ButtonStyle(
+                //   backgroundColor:
+                //       MaterialStateProperty.all<Color>(Colors.green),
+                //   foregroundColor:
+                //       MaterialStateProperty.all<Color>(Colors.white),
+                // ),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    textStyle: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
                 onPressed: isTicking ? null : _startTimer,
                 child: const Text('Start'),
               ),
