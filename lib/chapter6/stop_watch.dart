@@ -9,8 +9,9 @@ class StopWatch extends StatefulWidget {
 }
 
 class _StopWatchState extends State<StopWatch> {
-  int seconds = 0;
+  int milliseconds = 0;
   bool isTicking = false;
+  final laps = <int>[];
   late Timer timer;
 
   @override
@@ -22,18 +23,19 @@ class _StopWatchState extends State<StopWatch> {
   void _onTick(Timer time) {
     if (mounted) {
       setState(() {
-        ++seconds;
+        milliseconds += 100;
       });
     }
   }
 
-  String _secondsText() => seconds == 1 ? 'second' : 'seconds';
+  String _secondsText() => '${milliseconds / 1000} seconds';
 
   void _startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 1), _onTick);
+    timer = Timer.periodic(const Duration(milliseconds: 100), _onTick);
     setState(() {
-      seconds = 0;
+      milliseconds = 0;
       isTicking = true;
+      laps.clear();
     });
   }
 
@@ -44,56 +46,89 @@ class _StopWatchState extends State<StopWatch> {
     });
   }
 
+  void _lap() {
+    setState(() {
+      laps.add(milliseconds);
+      milliseconds = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('StopWatch'),
       ),
-      body: Column(
+      body: _buildCounter(context),
+    );
+  }
+
+  Widget _buildCounter(BuildContext context) {
+    return Container(
+      color: Theme.of(context).primaryColor,
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '$seconds ${_secondsText()}',
-            style: Theme.of(context).textTheme.headlineSmall,
+            'Lap ${laps.length + 1}',
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall!
+                .copyWith(color: Colors.white),
+          ),
+          Text(
+            _secondsText(),
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall!
+                .copyWith(color: Colors.white),
           ),
           const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                // style: ButtonStyle(
-                //   backgroundColor:
-                //       MaterialStateProperty.all<Color>(Colors.green),
-                //   foregroundColor:
-                //       MaterialStateProperty.all<Color>(Colors.white),
-                // ),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    textStyle: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                onPressed: isTicking ? null : _startTimer,
-                child: const Text('Start'),
-              ),
-              const SizedBox(width: 20),
-              TextButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                ),
-                onPressed: isTicking ? _stopTimer : null,
-                child: const Text('Stop'),
-              ),
-              const SizedBox(width: 20),
-            ],
-          )
+          _buildControls(context, this),
         ],
       ),
     );
   }
+}
+
+Widget _buildControls(BuildContext context, _StopWatchState state) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      ElevatedButton(
+        // style: ButtonStyle(
+        //   backgroundColor:
+        //       MaterialStateProperty.all<Color>(Colors.green),
+        //   foregroundColor:
+        //       MaterialStateProperty.all<Color>(Colors.white),
+        // ),
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            textStyle:
+                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10))),
+        onPressed: state.isTicking ? null : state._startTimer,
+        child: const Text('Start'),
+      ),
+      const SizedBox(width: 20),
+      ElevatedButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.yellow)),
+        onPressed: state.isTicking ? state._lap : null,
+        child: const Text('Lap'),
+      ),
+      const SizedBox(width: 20),
+      TextButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        ),
+        onPressed: state.isTicking ? state._stopTimer : null,
+        child: const Text('Stop'),
+      ),
+      const SizedBox(width: 20),
+    ],
+  );
 }
