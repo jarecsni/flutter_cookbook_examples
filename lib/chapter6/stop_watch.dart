@@ -28,7 +28,7 @@ class _StopWatchState extends State<StopWatch> {
     }
   }
 
-  String _secondsText() => '${milliseconds / 1000} seconds';
+  String _secondsText(int milliseconds) => '${milliseconds / 1000} seconds';
 
   void _startTimer() {
     timer = Timer.periodic(const Duration(milliseconds: 100), _onTick);
@@ -59,7 +59,12 @@ class _StopWatchState extends State<StopWatch> {
       appBar: AppBar(
         title: const Text('StopWatch'),
       ),
-      body: _buildCounter(context),
+      body: Column(
+        children: [
+          Expanded(child: _buildCounter(context)),
+          Expanded(child: _buildLapDisplay(this)),
+        ],
+      ),
     );
   }
 
@@ -77,7 +82,7 @@ class _StopWatchState extends State<StopWatch> {
                 .copyWith(color: Colors.white),
           ),
           Text(
-            _secondsText(),
+            _secondsText(milliseconds),
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall!
@@ -129,6 +134,19 @@ Widget _buildControls(BuildContext context, _StopWatchState state) {
         child: const Text('Stop'),
       ),
       const SizedBox(width: 20),
+    ],
+  );
+}
+
+Widget _buildLapDisplay(_StopWatchState state) {
+  return ListView(
+    children: [
+      for (int milliseconds in state.laps)
+        ListTile(
+          title: Text(
+            state._secondsText(milliseconds),
+          ),
+        ),
     ],
   );
 }
