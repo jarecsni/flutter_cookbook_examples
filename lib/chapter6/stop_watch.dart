@@ -13,6 +13,7 @@ class _StopWatchState extends State<StopWatch> {
   bool isTicking = false;
   final laps = <int>[];
   late Timer timer;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void dispose() {
@@ -51,6 +52,14 @@ class _StopWatchState extends State<StopWatch> {
       laps.add(milliseconds);
       milliseconds = 0;
     });
+    setState(() {
+      _scrollController.animateTo(
+        // TODO this does not bring the last item fully into view!
+        _scrollController.position.maxScrollExtent,
+        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 500),
+      );
+    });
   }
 
   @override
@@ -62,7 +71,10 @@ class _StopWatchState extends State<StopWatch> {
       body: Column(
         children: [
           Expanded(child: _buildCounter(context)),
-          Expanded(child: _buildLapDisplay(this)),
+          Expanded(
+            child: Scrollbar(
+                controller: _scrollController, child: _buildLapDisplay(this)),
+          ),
         ],
       ),
     );
@@ -140,6 +152,7 @@ Widget _buildControls(BuildContext context, _StopWatchState state) {
 
 Widget _buildLapDisplay(_StopWatchState state) {
   return ListView(
+    controller: state._scrollController,
     children: [
       for (int milliseconds in state.laps)
         ListTile(
