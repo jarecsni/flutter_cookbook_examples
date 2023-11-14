@@ -13,11 +13,13 @@ class _StopWatchState extends State<StopWatch> {
   bool isTicking = false;
   final laps = <int>[];
   late Timer timer;
+  final itemHeight = 60.0;
   final ScrollController _scrollController = ScrollController();
 
   @override
   void dispose() {
     timer.cancel();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -52,14 +54,18 @@ class _StopWatchState extends State<StopWatch> {
       laps.add(milliseconds);
       milliseconds = 0;
     });
-    setState(() {
+
+    // TODO there's a subtle issue here, that just before we start
+    // scrolling the last non scrolling item has less margin underneath it :)
+    // don't want to spend more time on this right now, its a good approximation
+    // but maybe something that is worth exploring further another time.
+    if (_scrollController.position.maxScrollExtent > 0) {
       _scrollController.animateTo(
-        // TODO this does not bring the last item fully into view!
-        _scrollController.position.maxScrollExtent,
-        curve: Curves.easeOut,
+        _scrollController.position.maxScrollExtent + itemHeight,
+        curve: Curves.easeIn,
         duration: const Duration(milliseconds: 500),
       );
-    });
+    }
   }
 
   @override
@@ -151,15 +157,17 @@ Widget _buildControls(BuildContext context, _StopWatchState state) {
 }
 
 Widget _buildLapDisplay(_StopWatchState state) {
-  return ListView(
+  return ListView.builder(
+    itemCount: state.laps.length,
+    itemExtent: state.itemHeight,
+    itemBuilder: (context, index) {
+      final milliseconds = state.laps[index];
+      return ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 50),
+        title: Text('Lap ${index + 1}'),
+        trailing: Text(state._secondsText(milliseconds)),
+      );
+    },
     controller: state._scrollController,
-    children: [
-      for (int milliseconds in state.laps)
-        ListTile(
-          title: Text(
-            state._secondsText(milliseconds),
-          ),
-        ),
-    ],
   );
 }
