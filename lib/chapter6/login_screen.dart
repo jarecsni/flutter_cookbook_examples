@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
-const email_regex = """
-([-!#-'*+/-9=?A-Z^-~]+(\\.[-!#-'*+/-9=?A-Z^-~]+)*|"
-([]!#-[^-~ \t]|(\\[\t -~]))+")@([-!#-'*+/-9=?A-Z^-~]+
-(\\.[-!#-'*+/-9=?A-Z^-~]+)*|\\[[\t -Z^-~]*])
-""";
+const emailRegex =
+    "([-!#-'*+/-9=?A-Z^-~]+(\\.[-!#-'*+/-9=?A-Z^-~]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([-!#-'*+/-9=?A-Z^-~]+(\\.[-!#-'*+/-9=?A-Z^-~]+)*|\\[[\t -Z^-~]*])";
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -71,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (text!.isEmpty) {
                   return "Enter the runner's email.";
                 }
-                final regex = RegExp(email_regex);
+                final regex = RegExp(emailRegex);
                 if (!regex.hasMatch(text)) {
                   return 'Enter a valid email address.';
                 }
