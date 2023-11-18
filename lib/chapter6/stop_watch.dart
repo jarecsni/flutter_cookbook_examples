@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter_cookbook_examples/chapter6/platform_alert.dart';
+
 class StopWatch extends StatefulWidget {
   final String name;
   final String email;
@@ -47,6 +49,12 @@ class _StopWatchState extends State<StopWatch> {
 
   void _stopTimer() {
     timer.cancel();
+    final totalRuntime = laps.fold(milliseconds, (total, lap) => total + lap);
+    final alert = PlatformAlert(
+      title: 'Run Completed',
+      message: 'Total run time is ${_secondsText(totalRuntime)}',
+    );
+    alert.show(context);
     setState(() {
       isTicking = false;
     });
