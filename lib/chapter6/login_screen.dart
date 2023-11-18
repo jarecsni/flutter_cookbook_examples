@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cookbook_examples/chapter6/stop_watch.dart';
 
 const emailRegex =
     "([-!#-'*+/-9=?A-Z^-~]+(\\.[-!#-'*+/-9=?A-Z^-~]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([-!#-'*+/-9=?A-Z^-~]+(\\.[-!#-'*+/-9=?A-Z^-~]+)*|\\[[\t -Z^-~]*])";
@@ -11,7 +12,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool loggedIn = false;
   String name = '';
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text('Login'),
       ),
       body: Center(
-        child: loggedIn ? _buildSuccess() : _buildLoginForm(),
+        child: _buildLoginForm(),
       ),
     );
   }
@@ -76,9 +76,14 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _validate,
               child: const Text('Continue'),
-            )
+              onPressed: () {
+                var valid = _validate();
+                if (valid) {
+                  _navigateToStopWatch();
+                }
+              },
+            ),
           ],
         ),
       ),
@@ -88,12 +93,22 @@ class _LoginScreenState extends State<LoginScreen> {
   _validate() {
     final form = _formKey.currentState;
     bool valid = form?.validate() ?? false;
-    if (!valid) {
-      return;
+    if (valid) {
+      setState(() {
+        name = _nameController.text;
+      });
     }
-    setState(() {
-      loggedIn = true;
-      name = _nameController.text;
-    });
+    return valid;
+  }
+
+  _navigateToStopWatch() {
+    final name = _nameController.text;
+    final email = _emailController.text;
+    // Navigator.of(context).push(MaterialPageRoute(
+    //   builder: (_) => StopWatch(name: name, email: email),
+    // ));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (_) => StopWatch(name: name, email: email),
+    ));
   }
 }
